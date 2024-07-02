@@ -39,3 +39,11 @@ From the spf-21y directory, run-
 cmake --build out && out/Tests
 ```
 
+## Creating a Pull Request
+1. Make the changes you need to make locally
+2. `git branch <branch_name>`: To create a new git branch
+3. `git push`: Push local changes to github
+4. See https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request for how to create a pull request and merge it into master.
+
+
+
