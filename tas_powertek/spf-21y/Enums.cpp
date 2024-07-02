@@ -1,6 +1,6 @@
 #include "Enums.h"
 
-namespace tas_powertek::spf21y { 
+namespace tas_powertek::spf21y {
 
 template <>
 std::string_view toString(DataType dataType) {
@@ -19,4 +19,4 @@ std::string_view toString(DataType dataType) {
       return "(Error) Unknown";
   }
 }
-}
+}  // namespace tas_powertek::spf21y
