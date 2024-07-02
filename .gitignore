@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Output (binary) directory
+out/
+
+# VS Code internal
+/.vscode
