@@ -5,11 +5,12 @@
 
 #include "Enums.h"
 #include "RecordData.h"
+#include "detail/CheckSum.h"
 
 namespace tas_powertek::spf21y {
 
-using TimePoint = std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
-using CheckSum = uint16_t;
+using TimePoint =
+    std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
 
 class Record {
  public:
@@ -34,10 +35,10 @@ class Record {
   const RecordData& data() const;
 
   template <typename T>
-  requires std::derived_from<T, RecordData>
+    requires std::derived_from<T, RecordData>
   const T& data() const;
 
-  CheckSum checksum() const;
+  detail::CheckSum16 checksum() const;
 
  private:
   bool isValid_ = false;
@@ -50,7 +51,7 @@ class Record {
   TimePoint timestamp_;
 
   std::unique_ptr<RecordData> data_;
-  CheckSum checksum_;
+  detail::CheckSum16 checksum_;
 };
 
-}
+}  // namespace tas_powertek::spf21y

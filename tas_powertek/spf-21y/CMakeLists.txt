@@ -13,15 +13,16 @@ find_package(gtest CONFIG REQUIRED)
 find_package(folly CONFIG REQUIRED)
 
 add_library(spf21y Enums.cpp Record.cpp)
+target_link_libraries(spf21y glog::glog Folly::folly)
 target_include_directories(spf21y PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR})
 
 # Testing
 enable_testing()
-add_executable(Tests test/EnumTest.cpp test/RecordTest.cpp)
+add_executable(Tests 
+    test/CheckSumTest.cpp
+    test/EnumTest.cpp
+    test/RecordTest.cpp)
 add_definitions(-DGLOG_NO_EXPORT)
 target_link_libraries(Tests spf21y GTest::gtest_main glog::glog Folly::folly)
 include (GoogleTest)
 gtest_discover_tests(Tests)
-
-#target_include_directories(spf21y )
-#target_link_libraries(HelloWorld PRIVATE fmt::fmt)
