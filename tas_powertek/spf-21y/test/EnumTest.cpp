@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include <folly/logging/xlog.h>
+#include <gtest/gtest.h>
 
 #include "../Enums.h"
 
@@ -13,4 +13,4 @@ TEST(EnumTest, toString) {
   EXPECT_EQ("Real Time", toString(DataType::REAL_TIME));
   XLOGF(INFO, "Successfully tested {}", "EnumTest");
 }
-}
+}  // namespace tas_powertek::spf21y

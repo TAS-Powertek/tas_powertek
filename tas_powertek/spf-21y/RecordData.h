@@ -6,4 +6,4 @@ class RecordData {
  public:
   virtual ~RecordData() = default;
 };
-}
+}  // namespace tas_powertek::spf21y
