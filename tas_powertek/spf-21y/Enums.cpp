@@ -1,3 +1,4 @@
+
 #include "Enums.h"
 
 namespace tas_powertek::spf21y {
@@ -18,5 +19,6 @@ std::string_view toString(DataType dataType) {
     case DataType::UNKNOWN:
       return "(Error) Unknown";
   }
+  return "(Error) Out of enum range / corruption";
 }
 }  // namespace tas_powertek::spf21y

@@ -12,6 +12,14 @@ enum class DataType {
   REAL_TIME,
 };
 
+enum class IntervalType {
+  UNKNOWN = 0,
+  INTERVAL_64,
+  INTERVAL_128,
+  INTERVAL_256,
+  INTERVAL_512,
+};
+
 template <typename T>
   requires(std::is_enum_v<T>)
 std::string_view toString(T enumVal);
