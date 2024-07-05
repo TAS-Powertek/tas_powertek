@@ -14,7 +14,9 @@ find_package(gtest CONFIG REQUIRED)
 find_package(folly CONFIG REQUIRED)
 find_package(date CONFIG REQUIRED) # Part of C++20 but not commonly adopted by compilers
 
-add_library(data data/TimeData.cpp)
+add_library(data 
+    data/FaultData.cpp
+    data/TimeData.cpp)
 target_link_libraries(data date::date date::date-tz)
 
 add_library(spf21y Enums.cpp Record.cpp)
@@ -27,6 +29,7 @@ enable_testing()
 add_executable(Tests
     test/CheckSumTest.cpp
     test/EnumTest.cpp
+    test/FaultDataTest.cpp
     test/RecordTest.cpp
     test/TimeDataTest.cpp)
 target_link_libraries(Tests spf21y GTest::gtest_main glog::glog)
