@@ -268,8 +268,10 @@ struct FaultData {
   bool __na_12_() const { return faultBits[7 * 16 + 14]; }
   bool IOK() const { return faultBits[7 * 16 + 15]; }
 
+  void bigEndian();
   static FaultData fromByteStream(std::string_view data);
 } FOLLY_PACK_ATTR;
 
 static_assert(sizeof(FaultData) == 16);
+static_assert(std::is_standard_layout_v<FaultData>);
 }  // namespace tas_powertek::spf21y

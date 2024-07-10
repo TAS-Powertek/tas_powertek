@@ -7,6 +7,15 @@
 
 namespace tas_powertek::spf21y {
 
+void FaultData::bigEndian() {
+  // SPF21Y uses 16 bit words, while bitset uses 8 bit words. To use the same
+  // bit numbers, we manually flip each even and odd byte.
+  for (int i = 0; i < 8; i++) {
+    uint16_t* word = reinterpret_cast<uint16_t*>(this);
+    word += i;
+    *word = folly::Endian::swap(*word);
+  }
+}
 /* static */ FaultData FaultData::fromByteStream(std::string_view data) {
   if (sizeof(FaultData) != data.size()) {
     throw std::runtime_error(fmt::format(
@@ -16,13 +25,7 @@ namespace tas_powertek::spf21y {
 
   FaultData result;
   std::memcpy(&result, data.data(), sizeof(FaultData));
-  // SPF21Y uses 16 bit words, while bitset uses 8 bit words. To use the same
-  // bit numbers, we manually flip each even and odd byte.
-  for (int i = 0; i < 8; i++) {
-    uint16_t* word = reinterpret_cast<uint16_t*>(&result);
-    word += i;
-    *word = folly::Endian::swap(*word);
-  }
+  result.bigEndian();
   return result;
 }
 }  // namespace tas_powertek::spf21y

@@ -22,4 +22,5 @@ struct TimeData {
 } FOLLY_PACK_ATTR;
 
 static_assert(sizeof(TimeData) == 7);
+static_assert(std::is_standard_layout_v<TimeData>);
 }  // namespace tas_powertek::spf21y

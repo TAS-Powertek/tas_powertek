@@ -42,7 +42,6 @@ void TimeData::bigEndian() {
         "Cannot deserialize data of size {} into TimeData of size {}",
         data.size(), sizeof(TimeData)));
   }
-
   TimeData result;
   std::memcpy(&result, data.data(), sizeof(TimeData));
   result.bigEndian();

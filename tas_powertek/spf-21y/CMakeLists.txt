@@ -15,9 +15,12 @@ find_package(folly CONFIG REQUIRED)
 find_package(date CONFIG REQUIRED) # Part of C++20 but not commonly adopted by compilers
 
 add_library(data 
+    data/AuxFnData.cpp
+    data/BankStatusData.cpp
     data/FaultData.cpp
+    data/IntervalData512.cpp
     data/TimeData.cpp)
-target_link_libraries(data date::date date::date-tz)
+target_link_libraries(data date::date date::date-tz Folly::folly Folly::folly_deps)
 
 add_library(spf21y Enums.cpp Record.cpp)
 add_definitions(-DGLOG_NO_EXPORT)
@@ -27,9 +30,12 @@ target_include_directories(spf21y PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURC
 # Testing
 enable_testing()
 add_executable(Tests
+    test/AuxFnDataTest.cpp
+    test/BankStatusDataTest.cpp
     test/CheckSumTest.cpp
     test/EnumTest.cpp
     test/FaultDataTest.cpp
+    test/IntervalData512Test.cpp
     test/RecordTest.cpp
     test/TimeDataTest.cpp)
 target_link_libraries(Tests spf21y GTest::gtest_main glog::glog)
