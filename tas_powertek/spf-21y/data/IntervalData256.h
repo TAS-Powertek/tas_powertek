@@ -89,7 +89,7 @@ struct IntervalData256 {
   pf phase3PowerFactor;
   dpf phase1PowerFactor_Fundamental;
   dpf phase2PowerFactor_Fundamental;
-  dpf phase3PowerFactor_Fundamental;  
+  dpf phase3PowerFactor_Fundamental;
   amp capacitorPhase1Current_RMS;
   amp capacitorPhase2Current_RMS;
   amp capacitorPhase3Current_RMS;
