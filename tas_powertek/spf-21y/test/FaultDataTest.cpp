@@ -140,6 +140,75 @@ TEST(FaultDataTest, xlsCalculation) {
   EXPECT_FALSE(faultData.__na_11_());
   EXPECT_FALSE(faultData.__na_12_());
   EXPECT_FALSE(faultData.IOK());
-  XLOGF(INFO, "{}", faultData.faultBits.to_string());
+}
+
+TEST(FaultDataLowTest, xlsCalculation) {
+  // Based on the XLS sheet provided for EventData
+  constexpr std::string_view kEventData("\x00\x00\x20\x00\x00\x00\x00\x00", 8);
+  FaultDataLow faultData = FaultDataLow::fromByteStream(kEventData);
+  EXPECT_FALSE(faultData.OVR());
+  EXPECT_FALSE(faultData.UVR());
+  EXPECT_FALSE(faultData.OVY());
+  EXPECT_FALSE(faultData.UVY());
+  EXPECT_FALSE(faultData.OVB());
+  EXPECT_FALSE(faultData.UVB());
+  EXPECT_FALSE(faultData.OCR());
+  EXPECT_FALSE(faultData.ULR());
+  EXPECT_FALSE(faultData.OCY());
+  EXPECT_FALSE(faultData.ULY());
+  EXPECT_FALSE(faultData.OCB());
+  EXPECT_FALSE(faultData.ULB());
+  EXPECT_FALSE(faultData.COR());
+  EXPECT_FALSE(faultData.CUR());
+  EXPECT_FALSE(faultData.COY());
+  EXPECT_FALSE(faultData.CUY());
+  EXPECT_FALSE(faultData.COB());
+  EXPECT_FALSE(faultData.CUB());
+  EXPECT_FALSE(faultData.SOF());
+  EXPECT_FALSE(faultData.SUF());
+  EXPECT_FALSE(faultData.MOT());
+  EXPECT_FALSE(faultData.ChR());
+  EXPECT_FALSE(faultData.ChY());
+  EXPECT_FALSE(faultData.ChB());
+  EXPECT_FALSE(faultData.OBF());
+  EXPECT_FALSE(faultData.UBA());
+  EXPECT_FALSE(faultData.OCN());
+  EXPECT_FALSE(faultData.EOT());
+  EXPECT_FALSE(faultData.PDN());
+  EXPECT_TRUE(faultData.PUP());
+  EXPECT_FALSE(faultData.RTC());
+  EXPECT_FALSE(faultData.NVF());
+  EXPECT_FALSE(faultData.ZCF());
+  EXPECT_FALSE(faultData.ZVF());
+  EXPECT_FALSE(faultData.MDW());
+  EXPECT_FALSE(faultData.MDV());
+  EXPECT_FALSE(faultData.UBV());
+  EXPECT_FALSE(faultData.UBC());
+  EXPECT_FALSE(faultData.__na_1_());
+  EXPECT_FALSE(faultData.CEL());
+  EXPECT_FALSE(faultData.VHF());
+  EXPECT_FALSE(faultData.CHF());
+  EXPECT_FALSE(faultData.PFR());
+  EXPECT_FALSE(faultData.PFY());
+  EXPECT_FALSE(faultData.PFB());
+  EXPECT_FALSE(faultData.AVL());
+  EXPECT_FALSE(faultData.AVH());
+  EXPECT_FALSE(faultData.CBF());
+  EXPECT_FALSE(faultData.SyF());
+  EXPECT_FALSE(faultData.CTM());
+  EXPECT_FALSE(faultData.ERU());
+  EXPECT_FALSE(faultData.EWU());
+  EXPECT_FALSE(faultData.RM1());
+  EXPECT_FALSE(faultData.RM2());
+  EXPECT_FALSE(faultData.DSB());
+  EXPECT_FALSE(faultData.HLD());
+  EXPECT_FALSE(faultData.AMG());
+  EXPECT_FALSE(faultData.WDR());
+  EXPECT_FALSE(faultData.SyA());
+  EXPECT_FALSE(faultData.SyP());
+  EXPECT_FALSE(faultData.ASM());
+  EXPECT_FALSE(faultData.PEM());
+  EXPECT_FALSE(faultData._EOF());
+  EXPECT_FALSE(faultData._4GN());
 }
 }  // namespace tas_powertek::spf21y
