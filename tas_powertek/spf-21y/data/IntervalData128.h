@@ -41,7 +41,7 @@ struct IntervalData128 {
   percent capacitorPhase1Current_THDPercent;
   percent capacitorPhase2Current_THDPercent;
   percent capacitorPhase3Current_THDPercent;
-  
+
   pf powerFactor_OverallThreePhase;
   dpf powerFactor_Fundamental_OverallThreePhase;
   va overall3PhApparentPower_Combined;

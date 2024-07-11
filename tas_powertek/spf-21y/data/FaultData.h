@@ -7,6 +7,146 @@
 
 namespace tas_powertek::spf21y {
 
+struct FaultDataLow {
+  std::bitset<56> faultBits;
+
+  auto OVR() { return faultBits[0 * 16 + 0]; }
+  auto UVR() { return faultBits[0 * 16 + 1]; }
+  auto OVY() { return faultBits[0 * 16 + 2]; }
+  auto UVY() { return faultBits[0 * 16 + 3]; }
+  auto OVB() { return faultBits[0 * 16 + 4]; }
+  auto UVB() { return faultBits[0 * 16 + 5]; }
+  auto OCR() { return faultBits[0 * 16 + 6]; }
+  auto ULR() { return faultBits[0 * 16 + 7]; }
+  auto OCY() { return faultBits[0 * 16 + 8]; }
+  auto ULY() { return faultBits[0 * 16 + 9]; }
+  auto OCB() { return faultBits[0 * 16 + 10]; }
+  auto ULB() { return faultBits[0 * 16 + 11]; }
+  auto COR() { return faultBits[0 * 16 + 12]; }
+  auto CUR() { return faultBits[0 * 16 + 13]; }
+  auto COY() { return faultBits[0 * 16 + 14]; }
+  auto CUY() { return faultBits[0 * 16 + 15]; }
+  auto COB() { return faultBits[1 * 16 + 0]; }
+  auto CUB() { return faultBits[1 * 16 + 1]; }
+  auto SOF() { return faultBits[1 * 16 + 2]; }
+  auto SUF() { return faultBits[1 * 16 + 3]; }
+  auto MOT() { return faultBits[1 * 16 + 4]; }
+  auto ChR() { return faultBits[1 * 16 + 5]; }
+  auto ChY() { return faultBits[1 * 16 + 6]; }
+  auto ChB() { return faultBits[1 * 16 + 7]; }
+  auto OBF() { return faultBits[1 * 16 + 8]; }
+  auto UBA() { return faultBits[1 * 16 + 9]; }
+  auto OCN() { return faultBits[1 * 16 + 10]; }
+  auto EOT() { return faultBits[1 * 16 + 11]; }
+  auto PDN() { return faultBits[1 * 16 + 12]; }
+  auto PUP() { return faultBits[1 * 16 + 13]; }
+  auto RTC() { return faultBits[1 * 16 + 14]; }
+  auto NVF() { return faultBits[1 * 16 + 15]; }
+  auto ZCF() { return faultBits[2 * 16 + 0]; }
+  auto ZVF() { return faultBits[2 * 16 + 1]; }
+  auto MDW() { return faultBits[2 * 16 + 2]; }
+  auto MDV() { return faultBits[2 * 16 + 3]; }
+  auto UBV() { return faultBits[2 * 16 + 4]; }
+  auto UBC() { return faultBits[2 * 16 + 5]; }
+  auto __na_1_() { return faultBits[2 * 16 + 6]; }
+  auto CEL() { return faultBits[2 * 16 + 7]; }
+  auto VHF() { return faultBits[2 * 16 + 8]; }
+  auto CHF() { return faultBits[2 * 16 + 9]; }
+  auto PFR() { return faultBits[2 * 16 + 10]; }
+  auto PFY() { return faultBits[2 * 16 + 11]; }
+  auto PFB() { return faultBits[2 * 16 + 12]; }
+  auto AVL() { return faultBits[2 * 16 + 13]; }
+  auto AVH() { return faultBits[2 * 16 + 14]; }
+  auto CBF() { return faultBits[2 * 16 + 15]; }
+  auto SyF() { return faultBits[3 * 16 + 0]; }
+  auto CTM() { return faultBits[3 * 16 + 1]; }
+  auto ERU() { return faultBits[3 * 16 + 2]; }
+  auto EWU() { return faultBits[3 * 16 + 3]; }
+  auto RM1() { return faultBits[3 * 16 + 4]; }
+  auto RM2() { return faultBits[3 * 16 + 5]; }
+  auto DSB() { return faultBits[3 * 16 + 6]; }
+  auto HLD() { return faultBits[3 * 16 + 7]; }
+  auto AMG() { return faultBits[3 * 16 + 8]; }
+  auto WDR() { return faultBits[3 * 16 + 9]; }
+  auto SyA() { return faultBits[3 * 16 + 10]; }
+  auto SyP() { return faultBits[3 * 16 + 11]; }
+  auto ASM() { return faultBits[3 * 16 + 12]; }
+  auto PEM() { return faultBits[3 * 16 + 13]; }
+  auto _EOF() { return faultBits[3 * 16 + 14]; }
+  auto _4GN() { return faultBits[3 * 16 + 15]; }
+
+  bool OVR() const { return faultBits[0 * 16 + 0]; }
+  bool UVR() const { return faultBits[0 * 16 + 1]; }
+  bool OVY() const { return faultBits[0 * 16 + 2]; }
+  bool UVY() const { return faultBits[0 * 16 + 3]; }
+  bool OVB() const { return faultBits[0 * 16 + 4]; }
+  bool UVB() const { return faultBits[0 * 16 + 5]; }
+  bool OCR() const { return faultBits[0 * 16 + 6]; }
+  bool ULR() const { return faultBits[0 * 16 + 7]; }
+  bool OCY() const { return faultBits[0 * 16 + 8]; }
+  bool ULY() const { return faultBits[0 * 16 + 9]; }
+  bool OCB() const { return faultBits[0 * 16 + 10]; }
+  bool ULB() const { return faultBits[0 * 16 + 11]; }
+  bool COR() const { return faultBits[0 * 16 + 12]; }
+  bool CUR() const { return faultBits[0 * 16 + 13]; }
+  bool COY() const { return faultBits[0 * 16 + 14]; }
+  bool CUY() const { return faultBits[0 * 16 + 15]; }
+  bool COB() const { return faultBits[1 * 16 + 0]; }
+  bool CUB() const { return faultBits[1 * 16 + 1]; }
+  bool SOF() const { return faultBits[1 * 16 + 2]; }
+  bool SUF() const { return faultBits[1 * 16 + 3]; }
+  bool MOT() const { return faultBits[1 * 16 + 4]; }
+  bool ChR() const { return faultBits[1 * 16 + 5]; }
+  bool ChY() const { return faultBits[1 * 16 + 6]; }
+  bool ChB() const { return faultBits[1 * 16 + 7]; }
+  bool OBF() const { return faultBits[1 * 16 + 8]; }
+  bool UBA() const { return faultBits[1 * 16 + 9]; }
+  bool OCN() const { return faultBits[1 * 16 + 10]; }
+  bool EOT() const { return faultBits[1 * 16 + 11]; }
+  bool PDN() const { return faultBits[1 * 16 + 12]; }
+  bool PUP() const { return faultBits[1 * 16 + 13]; }
+  bool RTC() const { return faultBits[1 * 16 + 14]; }
+  bool NVF() const { return faultBits[1 * 16 + 15]; }
+  bool ZCF() const { return faultBits[2 * 16 + 0]; }
+  bool ZVF() const { return faultBits[2 * 16 + 1]; }
+  bool MDW() const { return faultBits[2 * 16 + 2]; }
+  bool MDV() const { return faultBits[2 * 16 + 3]; }
+  bool UBV() const { return faultBits[2 * 16 + 4]; }
+  bool UBC() const { return faultBits[2 * 16 + 5]; }
+  bool __na_1_() const { return faultBits[2 * 16 + 6]; }
+  bool CEL() const { return faultBits[2 * 16 + 7]; }
+  bool VHF() const { return faultBits[2 * 16 + 8]; }
+  bool CHF() const { return faultBits[2 * 16 + 9]; }
+  bool PFR() const { return faultBits[2 * 16 + 10]; }
+  bool PFY() const { return faultBits[2 * 16 + 11]; }
+  bool PFB() const { return faultBits[2 * 16 + 12]; }
+  bool AVL() const { return faultBits[2 * 16 + 13]; }
+  bool AVH() const { return faultBits[2 * 16 + 14]; }
+  bool CBF() const { return faultBits[2 * 16 + 15]; }
+  bool SyF() const { return faultBits[3 * 16 + 0]; }
+  bool CTM() const { return faultBits[3 * 16 + 1]; }
+  bool ERU() const { return faultBits[3 * 16 + 2]; }
+  bool EWU() const { return faultBits[3 * 16 + 3]; }
+  bool RM1() const { return faultBits[3 * 16 + 4]; }
+  bool RM2() const { return faultBits[3 * 16 + 5]; }
+  bool DSB() const { return faultBits[3 * 16 + 6]; }
+  bool HLD() const { return faultBits[3 * 16 + 7]; }
+  bool AMG() const { return faultBits[3 * 16 + 8]; }
+  bool WDR() const { return faultBits[3 * 16 + 9]; }
+  bool SyA() const { return faultBits[3 * 16 + 10]; }
+  bool SyP() const { return faultBits[3 * 16 + 11]; }
+  bool ASM() const { return faultBits[3 * 16 + 12]; }
+  bool PEM() const { return faultBits[3 * 16 + 13]; }
+  bool _EOF() const { return faultBits[3 * 16 + 14]; }
+  bool _4GN() const { return faultBits[3 * 16 + 15]; }
+
+  void bigEndian();
+  static FaultDataLow fromByteStream(std::string_view data);
+} FOLLY_PACK_ATTR;
+
+static_assert(sizeof(FaultDataLow) == 8);
+static_assert(std::is_standard_layout_v<FaultDataLow>);
+
 struct FaultData {
   std::bitset<128> faultBits;
 
