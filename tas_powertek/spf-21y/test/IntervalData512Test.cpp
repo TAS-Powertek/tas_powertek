@@ -73,9 +73,9 @@ TEST(IntervalData512Test, xlsCalculation) {
   EXPECT_NEAR(*intervalData.phase1ToNeutralVoltage_THD, 0.00, 0.01);
   EXPECT_NEAR(*intervalData.phase2ToNeutralVoltage_THD, 0.00, 0.01);
   EXPECT_NEAR(*intervalData.phase3ToNeutralVoltage_THD, 7.41, 0.01);
-  EXPECT_EQ(*intervalData.phase1Voltage_NeutralTHDPercent, 0);
-  EXPECT_EQ(*intervalData.phase2Voltage_NeutralTHDPercent, 0);
-  EXPECT_EQ(*intervalData.phase3Voltage_NeutralTHDPercent, 2);
+  EXPECT_EQ(*intervalData.phase1ToNeutralVoltage_THDPercent, 0);
+  EXPECT_EQ(*intervalData.phase2ToNeutralVoltage_THDPercent, 0);
+  EXPECT_EQ(*intervalData.phase3ToNeutralVoltage_THDPercent, 2);
   EXPECT_NEAR(*intervalData.phase1ToPhase2Voltage_RMS, 426.44, 0.01);
   EXPECT_NEAR(*intervalData.phase2ToPhase3Voltage_RMS, 430.93, 0.01);
   EXPECT_NEAR(*intervalData.phase3ToPhase1Voltage_RMS, 429.13, 0.01);

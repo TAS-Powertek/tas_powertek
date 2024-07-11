@@ -25,9 +25,9 @@ struct IntervalData512 {
   volt phase1ToNeutralVoltage_THD;
   volt phase2ToNeutralVoltage_THD;
   volt phase3ToNeutralVoltage_THD;
-  percent phase1Voltage_NeutralTHDPercent;
-  percent phase2Voltage_NeutralTHDPercent;
-  percent phase3Voltage_NeutralTHDPercent;
+  percent phase1ToNeutralVoltage_THDPercent;
+  percent phase2ToNeutralVoltage_THDPercent;
+  percent phase3ToNeutralVoltage_THDPercent;
   volt phase1ToPhase2Voltage_RMS;
   volt phase2ToPhase3Voltage_RMS;
   volt phase3ToPhase1Voltage_RMS;
