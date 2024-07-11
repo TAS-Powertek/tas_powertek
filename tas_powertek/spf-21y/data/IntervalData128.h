@@ -26,6 +26,7 @@ struct IntervalData128 {
   amp phase1Current_RMS;
   amp phase2Current_RMS;
   amp phase3Current_RMS;
+  amp neutralCurrent_RMS;
   amp averagePhaseCurrent_Fundamental;
   amp averagePhaseCurrent_THD;
   amp capacitorPhase1Current_RMS;
@@ -41,7 +42,6 @@ struct IntervalData128 {
   percent capacitorPhase1Current_THDPercent;
   percent capacitorPhase2Current_THDPercent;
   percent capacitorPhase3Current_THDPercent;
-
   pf powerFactor_OverallThreePhase;
   dpf powerFactor_Fundamental_OverallThreePhase;
   va overall3PhApparentPower_Combined;
@@ -55,16 +55,14 @@ struct IntervalData128 {
   var phase1ReactivePower_Fundamental;
   var phase2ReactivePower_Fundamental;
   var phase3ReactivePower_Fundamental;
-
   var capacitorOverallInjectedReactivePower_Fundamental;
-  BankStatusData bankStatus;
-  FaultData faultData;
+  FaultDataLow faultData;
   AuxFnData auxFnData;
 
   void bigEndian();
   static IntervalData128 fromByteStream(std::string_view data);
 } FOLLY_PACK_ATTR;
 
-static_assert(sizeof(IntervalData128) == 343);
+static_assert(sizeof(IntervalData128) == 174);
 static_assert(std::is_standard_layout_v<IntervalData128>);
 }  // namespace tas_powertek::spf21y

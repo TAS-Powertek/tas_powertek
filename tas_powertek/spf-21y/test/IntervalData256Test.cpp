@@ -9,7 +9,7 @@ namespace tas_powertek::spf21y {
 
 TEST(IntervalData256Test, xlsCalculation) {
   // Based on the XLS sheet provided for EventData
-  constexpr std::string_view kInterval512Data(
+  constexpr std::string_view kInterval256Data(
       "\x35\x00\x12\x0c\x04\x07\xe8\x42\x48\xe8\x12\x43\x7b\xf4\x66\x43\x76\x57"
       "\x39\x43\x7b\x0e\x73\x43\x7b\xf4\x66\x43\x76\x57\x39\x43\x7a\xd4\xf7\x00"
       "\x00\x00\x00\x00\x00\x00\x00\x41\x13\x4f\x76\x00\x00\x03\x43\xd7\x03\xca"
@@ -32,7 +32,7 @@ TEST(IntervalData256Test, xlsCalculation) {
       "\x00",
       343);
   IntervalData256 intervalData =
-      IntervalData256::fromByteStream(kInterval512Data);
+      IntervalData256::fromByteStream(kInterval256Data);
   EXPECT_EQ(intervalData.time.sec, 53);
   EXPECT_EQ(intervalData.time.min, 0);
   EXPECT_EQ(intervalData.time.hour, 18);
