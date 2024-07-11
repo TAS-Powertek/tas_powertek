@@ -7,6 +7,10 @@
 
 namespace tas_powertek::spf21y {
 
+/**
+ * FaultData with only half the bytes (and data). Contains the low 4 words (8
+ * bytes) of data.
+ */
 struct FaultDataLow {
   std::bitset<56> faultBits;
 
