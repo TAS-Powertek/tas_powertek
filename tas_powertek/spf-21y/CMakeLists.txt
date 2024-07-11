@@ -18,6 +18,7 @@ add_library(data
     data/AuxFnData.cpp
     data/BankStatusData.cpp
     data/FaultData.cpp
+    data/IntervalData64.cpp
     data/IntervalData128.cpp
     data/IntervalData256.cpp
     data/IntervalData512.cpp
@@ -37,6 +38,7 @@ add_executable(Tests
     test/CheckSumTest.cpp
     test/EnumTest.cpp
     test/FaultDataTest.cpp
+    test/IntervalData64Test.cpp
     test/IntervalData128Test.cpp
     test/IntervalData256Test.cpp
     test/IntervalData512Test.cpp
