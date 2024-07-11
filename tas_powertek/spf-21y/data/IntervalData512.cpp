@@ -70,12 +70,12 @@ void IntervalData512::bigEndian() {
   *phase1ToNeutralVoltage_THD = folly::Endian::big(*phase1ToNeutralVoltage_THD);
   *phase2ToNeutralVoltage_THD = folly::Endian::big(*phase2ToNeutralVoltage_THD);
   *phase3ToNeutralVoltage_THD = folly::Endian::big(*phase3ToNeutralVoltage_THD);
-  *phase1Voltage_NeutralTHDPercent =
-      folly::Endian::big(*phase1Voltage_NeutralTHDPercent);
-  *phase2Voltage_NeutralTHDPercent =
-      folly::Endian::big(*phase2Voltage_NeutralTHDPercent);
-  *phase3Voltage_NeutralTHDPercent =
-      folly::Endian::big(*phase3Voltage_NeutralTHDPercent);
+  *phase1ToNeutralVoltage_THDPercent =
+      folly::Endian::big(*phase1ToNeutralVoltage_THDPercent);
+  *phase2ToNeutralVoltage_THDPercent =
+      folly::Endian::big(*phase2ToNeutralVoltage_THDPercent);
+  *phase3ToNeutralVoltage_THDPercent =
+      folly::Endian::big(*phase3ToNeutralVoltage_THDPercent);
   *phase1ToPhase2Voltage_RMS = folly::Endian::big(*phase1ToPhase2Voltage_RMS);
   *phase2ToPhase3Voltage_RMS = folly::Endian::big(*phase2ToPhase3Voltage_RMS);
   *phase3ToPhase1Voltage_RMS = folly::Endian::big(*phase3ToPhase1Voltage_RMS);

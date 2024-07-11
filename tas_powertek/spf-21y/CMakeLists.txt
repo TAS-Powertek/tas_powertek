@@ -18,6 +18,7 @@ add_library(data
     data/AuxFnData.cpp
     data/BankStatusData.cpp
     data/FaultData.cpp
+    data/IntervalData256.cpp
     data/IntervalData512.cpp
     data/TimeData.cpp)
 target_link_libraries(data date::date date::date-tz Folly::folly Folly::folly_deps)
@@ -35,6 +36,7 @@ add_executable(Tests
     test/CheckSumTest.cpp
     test/EnumTest.cpp
     test/FaultDataTest.cpp
+    test/IntervalData256Test.cpp
     test/IntervalData512Test.cpp
     test/RecordTest.cpp
     test/TimeDataTest.cpp)
