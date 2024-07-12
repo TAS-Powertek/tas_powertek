@@ -65,4 +65,24 @@ class dpf : public detail::strong_type<float, dpf> {
 } FOLLY_PACK_ATTR;
 static_assert(sizeof(dpf) == 4);
 static_assert(std::is_standard_layout_v<dpf>);
+
+class celsius : public detail::strong_type<float, celsius> {
+} FOLLY_PACK_ATTR;
+static_assert(sizeof(celsius) == 4);
+static_assert(std::is_standard_layout_v<celsius>);
+
+class kwh : public detail::strong_type<uint64_t, kwh> {
+} FOLLY_PACK_ATTR;
+static_assert(sizeof(kwh) == 8);
+static_assert(std::is_standard_layout_v<kwh>);
+
+class kvarh : public detail::strong_type<uint64_t, kvarh> {
+} FOLLY_PACK_ATTR;
+static_assert(sizeof(kvarh) == 8);
+static_assert(std::is_standard_layout_v<kvarh>);
+
+class kvah : public detail::strong_type<uint64_t, kvah> {
+} FOLLY_PACK_ATTR;
+static_assert(sizeof(kvah) == 8);
+static_assert(std::is_standard_layout_v<kvah>);
 }  // namespace tas_powertek::spf21y

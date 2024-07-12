@@ -17,6 +17,7 @@ find_package(date CONFIG REQUIRED) # Part of C++20 but not commonly adopted by c
 add_library(data 
     data/AuxFnData.cpp
     data/BankStatusData.cpp
+    data/DailyData.cpp
     data/EventData.cpp
     data/FaultData.cpp
     data/IntervalData64.cpp
@@ -37,6 +38,7 @@ add_executable(Tests
     test/AuxFnDataTest.cpp
     test/BankStatusDataTest.cpp
     test/CheckSumTest.cpp
+    test/DailyDataTest.cpp
     test/EnumTest.cpp
     test/EventDataTest.cpp
     test/FaultDataTest.cpp
