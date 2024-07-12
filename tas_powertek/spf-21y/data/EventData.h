@@ -31,8 +31,9 @@ struct EventData {
   volt phase1ToPhase2Voltage_RMS;
   volt phase2ToPhase3Voltage_RMS;
   volt phase3ToPhase1Voltage_RMS;
-  volt averagePhaseToPhaseVoltage_RMS;
-  volt averagePhaseToPhaseVoltage_Fundamental;
+  volt phase1ToPhase2Voltage_Fundamental;
+  volt phase2ToPhase3Voltage_Fundamental;
+  volt phase3ToPhase1Voltage_Fundamental;
   volt phase1ToPhase2Voltage_THD;
   volt phase2ToPhase3Voltage_THD;
   volt phase3ToPhase1Voltage_THD;
@@ -52,7 +53,6 @@ struct EventData {
   amp phase2Current_THD;
   amp phase3Current_THD;
   amp neutralCurrent_RMS;
-  amp neutralCurrent_Fundamental;
   amp neutralCurrent_THD;
   percent neutralCurrent_THDPercent;
   percent phase1Current_TDDPercent;
@@ -112,6 +112,6 @@ struct EventData {
   static EventData fromByteStream(std::string_view data);
 } FOLLY_PACK_ATTR;
 
-static_assert(sizeof(EventData) == 95);
+static_assert(sizeof(EventData) == 343);
 static_assert(std::is_standard_layout_v<EventData>);
 }  // namespace tas_powertek::spf21y
