@@ -38,6 +38,7 @@ add_executable(Tests
     test/AuxFnDataTest.cpp
     test/BankStatusDataTest.cpp
     test/CheckSumTest.cpp
+    test/DailyDataTest.cpp
     test/EnumTest.cpp
     test/EventDataTest.cpp
     test/FaultDataTest.cpp

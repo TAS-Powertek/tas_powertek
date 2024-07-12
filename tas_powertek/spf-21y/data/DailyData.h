@@ -36,10 +36,10 @@ struct DailyData {
   watt maxDemandOverallWatt;
   std::array<var, 16> capacitorBank_VAR;
   celsius maxExternalTempPT100;
-  kwh overallActiveEnergyGeneration_Negative; // aka export
-  kwh overallActiveEnergyConsumption_Positive; // aka import
-  kvarh overallReactiveEnergyImport_Negative; // aka import
-  kvarh overallReactiveEnergyExport_Positive; // aka export
+  kwh overallActiveEnergyGeneration_Negative;
+  kwh overallActiveEnergyConsumption_Positive;
+  kvarh overallReactiveEnergyImport_Negative;
+  kvarh overallReactiveEnergyExport_Positive;
   kvah overallApparentEnergy;
   kvarh capacitorReactiveFundamentalEnergyExported;
   std::array<uint32_t, 16> capacitorUtilizationCounters;
