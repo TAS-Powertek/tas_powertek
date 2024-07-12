@@ -9,11 +9,11 @@ namespace tas_powertek::spf21y {
 
 namespace detail {
 template <typename T, typename TTag>
-  requires std::is_integral_v<T> || std::is_floating_point_v<T>
+  requires std::is_standard_layout_v<T>
 class strong_type {
  public:
   T& operator*() { return value; }
-  T operator*() const { return value; }
+  const T& operator*() const { return value; }
   auto operator<=>(const strong_type&) const noexcept = default;
 
  private:
@@ -85,4 +85,20 @@ class kvah : public detail::strong_type<uint64_t, kvah> {
 } FOLLY_PACK_ATTR;
 static_assert(sizeof(kvah) == 8);
 static_assert(std::is_standard_layout_v<kvah>);
+
+template <size_t kSize>
+class fixed_sized_string
+    : public detail::strong_type<std::array<char, kSize>,
+                                 fixed_sized_string<kSize>> {
+ public:
+  operator std::string_view() const {
+    auto begin = (**this).begin();
+    for (size_t i = 0; i < kSize; i++) {
+      if ((**this)[i] == '\x00') {
+        return std::string_view(begin, begin + i);
+      }
+    }
+    return std::string_view(begin, begin + kSize);
+  }
+} FOLLY_PACK_ATTR;
 }  // namespace tas_powertek::spf21y

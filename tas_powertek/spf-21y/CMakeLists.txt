@@ -24,7 +24,8 @@ add_library(data
     data/IntervalData128.cpp
     data/IntervalData256.cpp
     data/IntervalData512.cpp
-    data/TimeData.cpp)
+    data/TimeData.cpp
+    data/UserSettingData.cpp)
 target_link_libraries(data date::date date::date-tz Folly::folly Folly::folly_deps)
 
 add_library(spf21y Enums.cpp Record.cpp)
@@ -47,7 +48,8 @@ add_executable(Tests
     test/IntervalData256Test.cpp
     test/IntervalData512Test.cpp
     test/RecordTest.cpp
-    test/TimeDataTest.cpp)
+    test/TimeDataTest.cpp
+    test/UserSettingDataTest.cpp)
 target_link_libraries(Tests spf21y GTest::gtest_main glog::glog)
 include (GoogleTest)
 gtest_discover_tests(Tests)
