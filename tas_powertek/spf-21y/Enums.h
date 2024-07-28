@@ -5,19 +5,14 @@
 namespace tas_powertek::spf21y {
 enum class DataType {
   UNKNOWN = 0,
-  FAULT,
-  INTERVAL,
-  DAILY,
-  USER_SETTINGS,
-  REAL_TIME,
-};
-
-enum class IntervalType {
-  UNKNOWN = 0,
+  EVENT,
   INTERVAL_64,
   INTERVAL_128,
   INTERVAL_256,
   INTERVAL_512,
+  DAILY,
+  USER_SETTINGS,
+  REAL_TIME,
 };
 
 template <typename T>

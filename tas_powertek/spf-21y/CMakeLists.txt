@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.10)
 
 project(spf21y)
 
-set(CMAKE_CXX_COMPILER "clang++")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
@@ -14,7 +13,7 @@ find_package(gtest CONFIG REQUIRED)
 find_package(folly CONFIG REQUIRED)
 find_package(date CONFIG REQUIRED) # Part of C++20 but not commonly adopted by compilers
 
-add_library(data 
+add_library(data
     data/AuxFnData.cpp
     data/BankStatusData.cpp
     data/DailyData.cpp
