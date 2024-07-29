@@ -20,8 +20,14 @@ std::string_view toString(DataType dataType) {
       return "Daily";
     case DataType::USER_SETTINGS:
       return "User Settings";
-    case DataType::REAL_TIME:
-      return "Real Time";
+    case DataType::REAL_TIME_64:
+      return "Real Time 64";
+    case DataType::REAL_TIME_128:
+      return "Real Time 128";
+    case DataType::REAL_TIME_256:
+      return "Real Time 256";
+    case DataType::REAL_TIME_512:
+      return "Real Time 512";
     case DataType::UNKNOWN:
       return "(Error) Unknown";
   }

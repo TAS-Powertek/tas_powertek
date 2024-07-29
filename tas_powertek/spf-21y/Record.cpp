@@ -177,6 +177,28 @@ T parseInteger(std::string_view data) {
         throw std::runtime_error(
             fmt::format("Invalid interval data of length {}", data.size()));
     }
+  } else if (dataType == "RT ") {
+    switch (data.size()) {
+      case sizeof(RealTimeData64):
+        data_ = std::make_unique<RealTimeData64>(
+            RealTimeData64::fromByteStream(data));
+        break;
+      case sizeof(RealTimeData128):
+        data_ = std::make_unique<RealTimeData128>(
+            RealTimeData128::fromByteStream(data));
+        break;
+      case sizeof(RealTimeData256):
+        data_ = std::make_unique<RealTimeData256>(
+            RealTimeData256::fromByteStream(data));
+        break;
+      case sizeof(RealTimeData512):
+        data_ = std::make_unique<RealTimeData512>(
+            RealTimeData512::fromByteStream(data));
+        break;
+      default:
+        throw std::runtime_error(
+            fmt::format("Invalid real time data of length {}", data.size()));
+    }
   } else {
     throw std::runtime_error(fmt::format("Invalid data type '{}'", dataType));
   }
@@ -198,6 +220,14 @@ DataType Record::dataType() const {
       return DataType::DAILY;
     case 6:
       return DataType::USER_SETTINGS;
+    case 7:
+      return DataType::REAL_TIME_64;
+    case 8:
+      return DataType::REAL_TIME_128;
+    case 9:
+      return DataType::REAL_TIME_256;
+    case 10:
+      return DataType::REAL_TIME_512;
   }
 
   throw std::runtime_error("Unknown data type");
