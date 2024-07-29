@@ -14,4 +14,15 @@ TEST(TimeDataTest, xlsCalculation) {
   EXPECT_EQ(TimeData::fromByteStream(Interval256).toTimePoint(),
             std::chrono::sys_seconds(std::chrono::seconds(1712925053)));
 }
+
+TEST(TimeDataTest, fromSysTime) {
+  TimeData timeData = TimeData::fromSysTime(
+      std::chrono::sys_seconds(std::chrono::seconds(1712922925)));
+  EXPECT_EQ(timeData.sec, 25);
+  EXPECT_EQ(timeData.min, 25);
+  EXPECT_EQ(timeData.hour, 17);
+  EXPECT_EQ(timeData.day_of_month, 12);
+  EXPECT_EQ(timeData.month, 4);
+  EXPECT_EQ(timeData.year, 2024);
+}
 }  // namespace tas_powertek::spf21y

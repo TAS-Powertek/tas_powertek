@@ -48,6 +48,9 @@ class Record {
 
   detail::CheckSum16 checksum() const { return checksum_; }
 
+  // Used for creating response. Little practical value otherwise.
+  size_t dataLengthWithSeparators() const;
+
  private:
   std::string companyCode_;
   std::string productSerialNumber_;

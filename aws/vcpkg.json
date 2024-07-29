@@ -1,7 +1,10 @@
 {
   "dependencies": [
     "aws-lambda-cpp",
+    "fmt",
     "folly",
-    "fmt"
+    "glog",
+    "gtest",
+    "date"
   ]
 }

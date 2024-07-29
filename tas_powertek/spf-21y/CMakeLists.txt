@@ -9,7 +9,7 @@ add_compile_options(-Wall -Wextra -Wpedantic -Wswitch-enum)
 
 find_package(fmt CONFIG REQUIRED)
 find_package(glog CONFIG REQUIRED)
-find_package(gtest CONFIG REQUIRED)
+find_package(GTest CONFIG REQUIRED)
 find_package(folly CONFIG REQUIRED)
 find_package(date CONFIG REQUIRED) # Part of C++20 but not commonly adopted by compilers
 
@@ -28,7 +28,10 @@ add_library(data
     data/UserSettingData.cpp)
 target_link_libraries(data date::date date::date-tz Folly::folly Folly::folly_deps)
 
-add_library(spf21y Enums.cpp Record.cpp)
+add_library(spf21y 
+    Enums.cpp
+    Record.cpp
+    Response.cpp)
 add_definitions(-DGLOG_NO_EXPORT)
 target_link_libraries(spf21y PUBLIC data Folly::folly Folly::folly_deps)
 target_include_directories(spf21y PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR})

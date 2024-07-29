@@ -232,4 +232,8 @@ DataType Record::dataType() const {
 
   throw std::runtime_error("Unknown data type");
 }
+
+size_t Record::dataLengthWithSeparators() const {
+  return dataLength_ + kHeaderBodySeparator.size() + kSizeCheckSum;
+}
 }  // namespace tas_powertek::spf21y
