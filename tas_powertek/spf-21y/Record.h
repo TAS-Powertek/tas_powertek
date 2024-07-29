@@ -4,13 +4,16 @@
 #include <string_view>
 
 #include "Enums.h"
-#include "RecordData.h"
+#include "data/DailyData.h"
+#include "data/EventData.h"
+#include "data/IntervalData128.h"
+#include "data/IntervalData256.h"
+#include "data/IntervalData512.h"
+#include "data/IntervalData64.h"
+#include "data/UserSettingData.h"
 #include "detail/CheckSum.h"
 
 namespace tas_powertek::spf21y {
-
-using TimePoint =
-    std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
 
 class Record {
  public:
@@ -21,36 +24,44 @@ class Record {
   Record& operator=(Record&&) noexcept = default;
   ~Record() = default;
 
-  bool isValid() const;
-  std::string_view companyCode() const;
-  std::string_view productSerialNumber() const;
+  std::string_view companyCode() const { return companyCode_; }
+  std::string_view productSerialNumber() const { return productSerialNumber_; }
   DataType dataType() const;
   // productId == model number
-  std::string_view productId() const;
-  std::string_view unitId() const;
-  size_t dataLength() const;
-  std::string_view dataRecordId() const;
-  TimePoint timestamp() const;
-
-  const RecordData& data() const;
+  std::string_view productId() const { return productId_; }
+  std::string_view unitId() const { return unitId_; }
+  size_t dataLength() const { return dataLength_; }
+  std::string_view dataRecordId() const { return dataRecordId_; }
+  const TimeData& clientTransmissionTime() const {
+    return clientTransmissionTime_;
+  }
 
   template <typename T>
-    requires std::derived_from<T, RecordData>
-  const T& data() const;
+  const T& data() const {
+    return *(std::get<std::unique_ptr<T>>(data_));
+  }
+  template <typename T>
+  T data() && {
+    return std::move(*(std::get<std::unique_ptr<T>>(data_)));
+  }
 
-  detail::CheckSum16 checksum() const;
+  detail::CheckSum16 checksum() const { return checksum_; }
 
  private:
-  bool isValid_ = false;
   std::string companyCode_;
   std::string productSerialNumber_;
   std::string productId_;
   std::string unitId_;
   size_t dataLength_;
   std::string dataRecordId_;
-  TimePoint timestamp_;
+  TimeData clientTransmissionTime_;
 
-  std::unique_ptr<RecordData> data_;
+  std::variant<std::unique_ptr<EventData>, std::unique_ptr<IntervalData64>,
+               std::unique_ptr<IntervalData128>,
+               std::unique_ptr<IntervalData256>,
+               std::unique_ptr<IntervalData512>, std::unique_ptr<DailyData>,
+               std::unique_ptr<UserSettingData>>
+      data_;
   detail::CheckSum16 checksum_;
 };
 

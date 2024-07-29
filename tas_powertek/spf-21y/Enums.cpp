@@ -6,10 +6,16 @@ namespace tas_powertek::spf21y {
 template <>
 std::string_view toString(DataType dataType) {
   switch (dataType) {
-    case DataType::FAULT:
-      return "Fault/Event";
-    case DataType::INTERVAL:
-      return "Interval";
+    case DataType::EVENT:
+      return "Event/Fault";
+    case DataType::INTERVAL_64:
+      return "Interval 64";
+    case DataType::INTERVAL_128:
+      return "Interval 128";
+    case DataType::INTERVAL_256:
+      return "Interval 256";
+    case DataType::INTERVAL_512:
+      return "Interval 512";
     case DataType::DAILY:
       return "Daily";
     case DataType::USER_SETTINGS:
