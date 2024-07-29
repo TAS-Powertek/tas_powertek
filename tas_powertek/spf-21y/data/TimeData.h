@@ -19,6 +19,7 @@ struct TimeData {
   void bigEndian();  // converts from native to big endian (or vice versa)
 
   static TimeData fromByteStream(std::string_view data);
+  static TimeData fromSysTime(std::chrono::sys_seconds sysTime);
 } FOLLY_PACK_ATTR;
 
 static_assert(sizeof(TimeData) == 7);

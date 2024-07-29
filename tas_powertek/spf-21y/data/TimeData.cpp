@@ -47,4 +47,27 @@ void TimeData::bigEndian() {
   result.bigEndian();
   return result;
 }
+
+/* static */ TimeData TimeData::fromSysTime(std::chrono::sys_seconds sysTime) {
+  date::zoned_time zt(kIstTimeZone, sysTime);
+  date::local_seconds localTime = zt.get_local_time();
+  auto daysTp = std::chrono::floor<std::chrono::days>(localTime);
+  date::year_month_day ymd{daysTp};
+  std::chrono::hours hourOffset =
+      std::chrono::floor<std::chrono::hours>(localTime) - daysTp;
+  std::chrono::minutes minuteOffset =
+      std::chrono::floor<std::chrono::minutes>(localTime.time_since_epoch()) -
+      std::chrono::floor<std::chrono::hours>(localTime.time_since_epoch());
+  std::chrono::seconds secOffset =
+      localTime.time_since_epoch() -
+      std::chrono::floor<std::chrono::minutes>(localTime.time_since_epoch());
+  TimeData result;
+  result.sec = secOffset.count();
+  result.min = minuteOffset.count();
+  result.hour = hourOffset.count();
+  result.day_of_month = static_cast<unsigned>(ymd.day());
+  result.month = static_cast<unsigned>(ymd.month());
+  result.year = static_cast<int>(ymd.year());
+  return result;
+}
 }  // namespace tas_powertek::spf21y
