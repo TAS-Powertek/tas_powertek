@@ -23,6 +23,7 @@ add_library(data
     data/IntervalData128.cpp
     data/IntervalData256.cpp
     data/IntervalData512.cpp
+    data/RealTimeData.cpp
     data/TimeData.cpp
     data/UserSettingData.cpp)
 target_link_libraries(data date::date date::date-tz Folly::folly Folly::folly_deps)

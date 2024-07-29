@@ -10,6 +10,7 @@
 #include "data/IntervalData256.h"
 #include "data/IntervalData512.h"
 #include "data/IntervalData64.h"
+#include "data/RealTimeData.h"
 #include "data/UserSettingData.h"
 #include "detail/CheckSum.h"
 
@@ -56,11 +57,13 @@ class Record {
   std::string dataRecordId_;
   TimeData clientTransmissionTime_;
 
-  std::variant<std::unique_ptr<EventData>, std::unique_ptr<IntervalData64>,
-               std::unique_ptr<IntervalData128>,
-               std::unique_ptr<IntervalData256>,
-               std::unique_ptr<IntervalData512>, std::unique_ptr<DailyData>,
-               std::unique_ptr<UserSettingData>>
+  std::variant<
+      std::unique_ptr<EventData>, std::unique_ptr<IntervalData64>,
+      std::unique_ptr<IntervalData128>, std::unique_ptr<IntervalData256>,
+      std::unique_ptr<IntervalData512>, std::unique_ptr<DailyData>,
+      std::unique_ptr<UserSettingData>, std::unique_ptr<RealTimeData64>,
+      std::unique_ptr<RealTimeData128>, std::unique_ptr<RealTimeData256>,
+      std::unique_ptr<RealTimeData512>>
       data_;
   detail::CheckSum16 checksum_;
 };

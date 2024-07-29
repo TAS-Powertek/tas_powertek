@@ -12,7 +12,10 @@ enum class DataType {
   INTERVAL_512,
   DAILY,
   USER_SETTINGS,
-  REAL_TIME,
+  REAL_TIME_64,
+  REAL_TIME_128,
+  REAL_TIME_256,
+  REAL_TIME_512,
 };
 
 template <typename T>

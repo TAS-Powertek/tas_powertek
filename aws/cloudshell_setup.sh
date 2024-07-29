@@ -16,4 +16,5 @@ export VCPKG_ROOT=/home/vcpkg/vcpkg
 export PATH=$VCPKG_ROOT:$PATH
 popd
 
+cmake --preset=default
 
