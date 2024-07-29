@@ -1,19 +1,14 @@
 echo "Setting up cloudshell environment"
 
-if [ "$EUID" -ne 0 ]
-  then echo "Please run as root using sudo"
-  exit
-fi
-
-yum install gcc-c++
-yum install libcurl-devel
-yum install cmake
-yum install ninja-build
+yes | sudo yum install gcc-c++
+yes | sudo yum install libcurl-devel
+yes | sudo yum install cmake
+yes | sudo yum install ninja-build
 
 # Install vcpkg
 pushd .
-mkdir /home/vcpkg
-chown cloudshell-user /home/vcpkg
+sudo mkdir /home/vcpkg
+sudo chown cloudshell-user /home/vcpkg
 cd /home/vcpkg
 git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg && ./bootstrap-vcpkg.sh
