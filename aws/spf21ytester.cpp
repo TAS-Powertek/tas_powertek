@@ -7,6 +7,7 @@
 #include <folly/logging/xlog.h>
 
 #include "../tas_powertek/spf-21y/Record.h"
+#include "../tas_powertek/spf-21y/Response.h"
 
 using namespace aws::lambda_runtime;
 using namespace tas_powertek::spf21y;
@@ -98,10 +99,9 @@ invocation_response my_handler(invocation_request const& request) {
     XLOG(INFO) << "The raw record is " << stringToHex(requestBody);
     Record record(requestBody);
 
-    return invocation_response::success(
-        fmt::format("Hello, World! The request payload was {}",
-                    request.payload),
-        "text/plain");
+    Response response(record);
+    return invocation_response::success(response.serialize(),
+                                        "binary/octet-stream");
   } catch (const std::exception& e) {
     XLOG(ERR) << "Exception: " << folly::exceptionStr(e);
     auto failure = createFailure(e);
