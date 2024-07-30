@@ -1,6 +1,7 @@
 echo "Setting up cloudshell environment"
 
-yes | sudo yum install gcc-c++
+yes | sudo yum install clang
+yes | sudo yum install perl
 yes | sudo yum install libcurl-devel
 yes | sudo yum install cmake
 yes | sudo yum install ninja-build
