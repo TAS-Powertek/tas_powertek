@@ -52,6 +52,7 @@ add_executable(Tests
     test/IntervalData256Test.cpp
     test/IntervalData512Test.cpp
     test/RecordTest.cpp
+    test/ResponseTest.cpp
     test/TimeDataTest.cpp
     test/UserSettingDataTest.cpp)
 target_link_libraries(Tests spf21y GTest::gtest_main glog::glog)

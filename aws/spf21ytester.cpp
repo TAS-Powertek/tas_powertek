@@ -18,7 +18,7 @@ invocation_response createFailure(const std::exception& e) {
   return invocation_response::failure(folly::toJson(result), "exception");
 }
 
-std::string stringToHex(const std::string& input) {
+std::string stringToHex(std::string_view input) {
   static const char hex_digits[] = "0123456789ABCDEF";
 
   std::string output;

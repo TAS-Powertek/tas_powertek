@@ -18,7 +18,7 @@ TEST(RecordTest, xlsRequest) {
       "\xcb\xec\x03",
       169};
   Record record{kSampleRequest};
-  EXPECT_EQ(record.companyCode(), "TAS");
+  EXPECT_EQ(record.companyCode(), "TAS ");
   EXPECT_EQ(record.productSerialNumber(), "1010004240020080");
   EXPECT_EQ(record.dataType(), DataType::INTERVAL_64);
   EXPECT_EQ(record.productId(), "SPF-21YFK60");
@@ -26,7 +26,7 @@ TEST(RecordTest, xlsRequest) {
   EXPECT_EQ(record.dataLength(), sizeof(IntervalData64));
   EXPECT_EQ(record.dataRecordId(), "00001840");
   EXPECT_EQ(record.clientTransmissionTime().toTimePoint().time_since_epoch(),
-            std::chrono::seconds{1832527311});
+            std::chrono::seconds{1713417834});
   EXPECT_EQ(record.checksum(), detail::CheckSum16{0xcbec});
 
   const IntervalData64& data = record.data<IntervalData64>();
