@@ -4,6 +4,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <string_view>
 
 namespace tas_powertek::spf21y {
 
