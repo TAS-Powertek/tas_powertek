@@ -63,14 +63,21 @@ std::string getCString(std::string_view data) {
 }
 
 template <typename T>
-  requires std::is_integral_v<T>
+  requires std::is_integral_v<T> && std::is_unsigned_v<T>
 T parseInteger(std::string_view data) {
   XCHECK(data.size() % 2 == 0);
   XCHECK_EQ(sizeof(T), data.size() / 2);
-  T result;
-  std::stringstream ss;
-  ss << std::hex << data;
-  ss >> result;
+  T result{};
+  for (char c : data) {
+    uint8_t byte = static_cast<uint8_t>(c);
+    if (byte >= '0' && byte <= '9')
+      byte = byte - '0';
+    else if (byte >= 'a' && byte <= 'f')
+      byte = byte - 'a' + 10;
+    else if (byte >= 'A' && byte <= 'F')
+      byte = byte - 'A' + 10;
+    result = (result << 4) | (byte & 0xF);
+  }
   return result;
 }
 
@@ -109,7 +116,7 @@ T parseInteger(std::string_view data) {
     throw std::runtime_error(fmt::format(
         "Invalid company code. Must be 'TAS'. But was '{}'", companyCode));
   }
-  companyCode_ = "TAS";
+  companyCode_ = "TAS ";
   productSerialNumber_ = getCString(productSerialNumber);
   productId_ = getCString(productId);
   unitId_ = getCString(unitId);
