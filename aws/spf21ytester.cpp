@@ -1,6 +1,7 @@
 // main.cpp
 #include <aws/lambda-runtime/runtime.h>
 #include <fmt/core.h>
+#include <fmt/ranges.h>
 #include <folly/ExceptionString.h>
 #include <folly/base64.h>
 #include <folly/json/json.h>
@@ -15,8 +16,13 @@ using namespace tas_powertek::spf21y;
 namespace {
 invocation_response createFailure(const std::exception& e) {
   folly::dynamic result = folly::dynamic::object;
-  result["exception"] = folly::exceptionStr(e);
-  return invocation_response::failure(folly::toJson(result), "exception");
+  result["statusCode"] = 400;
+  result["headers"] = folly::dynamic::object;
+  result["headers"]["err"] = folly::exceptionStr(e);
+  result["body"] = folly::exceptionStr(e);
+  // https://github.com/awslabs/aws-lambda-cpp/issues/200
+  return invocation_response::success(folly::toJson(result),
+                                      "application/json");
 }
 
 std::string stringToHex(std::string_view input) {
@@ -31,6 +37,9 @@ std::string stringToHex(std::string_view input) {
   }
   return output;
 }
+
+static const std::unordered_set<std::string> kAcceptedMimeTypes{
+    "binary/octet-stream", "application/octet-stream"};
 }  // namespace
 
 // Sample request -
@@ -87,8 +96,10 @@ invocation_response my_handler(invocation_request const& request) {
     if (requestHttpContext.at("method") != "POST") {
       throw std::logic_error("Only POST requests are supported");
     }
-    if (parsedJson.at("headers").at("content-type") != "binary/octet-stream") {
-      throw std::logic_error("Content-Type must be set to binary/octet-stream");
+    if (!kAcceptedMimeTypes.contains(
+            parsedJson.at("headers").at("content-type").asString())) {
+      throw std::logic_error(fmt::format(
+          "Content-Type must be set to one of {}", kAcceptedMimeTypes));
     }
 
     auto requestBody = parsedJson.at("body").asString();
@@ -101,12 +112,10 @@ invocation_response my_handler(invocation_request const& request) {
 
     Response response(record);
     return invocation_response::success(response.serialize(),
-                                        "binary/octet-stream");
+                                        "application/octet-stream");
   } catch (const std::exception& e) {
     XLOG(ERR) << "Exception: " << folly::exceptionStr(e);
-    auto failure = createFailure(e);
-    XLOG(INFO) << "Created failure";
-    return failure;
+    return createFailure(e);
   }
 }
 
