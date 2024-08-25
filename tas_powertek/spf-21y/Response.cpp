@@ -8,7 +8,7 @@ namespace {
 
 constexpr char kResponseStart = '\x02';
 constexpr char kResponseEnd = '\x03';
-constexpr std::string_view kBody{"\x00\x00", 2};
+constexpr std::string_view kBody{"\x00\x00\x00\x00", 4};
 
 constexpr size_t kSizeCompanyCode = 4;
 constexpr size_t kSizeProductSerialNumber = 16;
@@ -29,7 +29,7 @@ constexpr size_t kSizeHeader =
 constexpr size_t kSizeBody = kBody.size();
 constexpr size_t kTotalSize = sizeof(kResponseStart) + kSizeHeader + kSizeBody +
                               kSizeCheckSum + sizeof(kResponseEnd);
-static_assert(kTotalSize == 88);
+static_assert(kTotalSize == 90);
 
 void checkSize(const std::string& out, size_t sizeToAppend) {
   if (out.size() + sizeToAppend > kTotalSize) {
@@ -153,8 +153,7 @@ std::string Response::serialize(std::chrono::sys_seconds curTime) const {
   append(result, serverTransmissionTime);
   append(result, kBody, kSizeBody);
 
-  std::string_view checksumableContent =
-      std::string_view{result}.substr(sizeof(kResponseStart));
+  std::string_view checksumableContent = std::string_view{result};
   detail::CheckSum16 checksum =
       detail::CheckSum16::compute(checksumableContent);
 
