@@ -44,11 +44,11 @@ TEST(ResponseTest, xlsResponse) {
   EXPECT_EQ(sv.substr(75, 2), fmt::format("{:0>2X}", 31));    // d
   EXPECT_EQ(sv.substr(77, 2), fmt::format("{:0>2X}", 7));     // mo
   EXPECT_EQ(sv.substr(79, 4), fmt::format("{:0>4X}", 2024));  // y
-  EXPECT_EQ(sv.substr(83, 2), std::string_view("\0\0", 2));   // ack body
+  EXPECT_EQ(sv.substr(83, 4), std::string_view("\0\0\0\0", 4));   // ack body
 
   // Validate checksum.
-  detail::CheckSum16 computed = detail::CheckSum16::compute(sv.substr(1, 84));
-  std::string_view checkSumSv = sv.substr(85, 2);
+  detail::CheckSum16 computed = detail::CheckSum16::compute(sv.substr(0, 86));
+  std::string_view checkSumSv = sv.substr(87, 2);
   uint16_t checksumInResponse;
   std::memcpy(&checksumInResponse, checkSumSv.data(), sizeof(uint16_t));
   checksumInResponse = folly::Endian::big(checksumInResponse);
