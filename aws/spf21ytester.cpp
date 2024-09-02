@@ -14,12 +14,50 @@ using namespace aws::lambda_runtime;
 using namespace tas_powertek::spf21y;
 
 namespace {
+static constexpr std::string_view kUserName = "";
+static constexpr std::string_view kPassword = "";
+
+static const std::string kBasicAuthString =
+    fmt::format("{}:{}", kUserName, kPassword);
+static const std::string kBasicAuthBase64 =
+    folly::base64Encode(kBasicAuthString);
+
+bool authenticate(const folly::dynamic& parsedRequest) {
+  auto headers = parsedRequest.at("headers");
+  if (headers.find("authorization") == headers.items().end()) {
+    XLOG(INFO) << "Authorization header not found";
+    return false;
+  }
+  std::string authorizationHeader = headers.at("authorization").asString();
+  if (authorizationHeader.find("Basic ") != 0) {
+    XLOG(INFO) << "Authorization header is not Basic";
+    return false;
+  }
+  std::string authString = authorizationHeader.substr(6);
+  if (authString != kBasicAuthBase64) {
+    XLOG(INFO) << "Authorization header failed";
+    return false;
+  } 
+
+  XLOG(INFO) << "Authorization header passed";
+  return true;
+}
 invocation_response createFailure(const std::exception& e) {
   folly::dynamic result = folly::dynamic::object;
   result["statusCode"] = 400;
   result["headers"] = folly::dynamic::object;
   result["headers"]["err"] = folly::exceptionStr(e);
   result["body"] = folly::exceptionStr(e);
+  // https://github.com/awslabs/aws-lambda-cpp/issues/200
+  return invocation_response::success(folly::toJson(result),
+                                      "application/json");
+}
+
+invocation_response createAccessDenied() {
+  folly::dynamic result = folly::dynamic::object;
+  result["statusCode"] = 403;
+  result["headers"] = folly::dynamic::object;
+  result["body"] = "Invalid credentials";
   // https://github.com/awslabs/aws-lambda-cpp/issues/200
   return invocation_response::success(folly::toJson(result),
                                       "application/json");
@@ -100,6 +138,9 @@ invocation_response my_handler(invocation_request const& request) {
             parsedJson.at("headers").at("content-type").asString())) {
       throw std::logic_error(fmt::format(
           "Content-Type must be set to one of {}", kAcceptedMimeTypes));
+    }
+    if (!authenticate(parsedJson)) {
+      return createAccessDenied();
     }
 
     auto requestBody = parsedJson.at("body").asString();
