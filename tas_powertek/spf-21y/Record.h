@@ -46,9 +46,7 @@ class Record {
     return std::move(*(std::get<std::unique_ptr<T>>(data_)));
   }
 
-  const auto& dataVariant() {
-    return data_;
-  }
+  const auto& dataVariant() const { return data_; }
 
   detail::CheckSum16 checksum() const { return checksum_; }
 

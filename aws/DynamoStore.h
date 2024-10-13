@@ -6,6 +6,7 @@
 namespace tas_powertek::spf21y {
 
 class DynamoStore {
+ public:
   void put(const Record& record);
 };
 }  // namespace tas_powertek::spf21y

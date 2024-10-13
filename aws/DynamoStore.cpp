@@ -1,22 +1,24 @@
 
+#include "DynamoStore.h"
+
 #include <aws/core/Aws.h>
 #include <aws/dynamodb/DynamoDBClient.h>
 #include <aws/dynamodb/model/AttributeDefinition.h>
-#include <aws/dynamodb/model/GetItemRequest.h>
+#include <aws/dynamodb/model/PutItemRequest.h>
 
 namespace tas_powertek::spf21y {
 
 namespace {
-constexpr std::string_view kTableName{"spf21ytester"};
-constexpr std::string_view kCompanyCode{"company_code"};
-constexpr std::string_view kProductSerialNumber{"product_serial_number"};
-constexpr std::string_view kDataType{"data_type"};
-constexpr std::string_view kProductId{"product_id"};
-constexpr std::string_view kUnitId{"unit_id"};
-constexpr std::string_view kDataLength{"data_length"};
-constexpr std::string_view kDataRecordId{"record_id"};
-constexpr std::string_view kClientTransmissionTime{"transmission_time"};
-constexpr std::string_view kChecksum{"checksum"};
+static const std::string kTableName{"spf21ytester"};
+static const std::string kCompanyCode{"company_code"};
+static const std::string kProductSerialNumber{"product_serial_number"};
+static const std::string kDataType{"data_type"};
+static const std::string kProductId{"product_id"};
+static const std::string kUnitId{"unit_id"};
+static const std::string kDataLength{"data_length"};
+static const std::string kDataRecordId{"record_id"};
+static const std::string kClientTransmissionTime{"transmission_time"};
+static const std::string kChecksum{"checksum"};
 
 std::string epochSecString(const TimeData& data) {
   return std::to_string(data.toTimePoint().time_since_epoch().count());

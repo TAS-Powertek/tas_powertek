@@ -1,4 +1,5 @@
 // main.cpp
+#include <aws/core/Aws.h>
 #include <aws/lambda-runtime/runtime.h>
 #include <fmt/core.h>
 #include <fmt/ranges.h>
@@ -154,9 +155,11 @@ invocation_response my_handler(invocation_request const& request) {
     Record record(requestBody);
 
     if (record.companyCode() != kCompanyCode) {
-      throw std::runtime_error(fmt::format("The company code '{}' is invalid", record.companyCode()));
+      throw std::runtime_error(fmt::format("The company code '{}' is invalid",
+                                           record.companyCode()));
     }
 
+    DynamoStore().put(record);
     Response response(record);
     return invocation_response::success(response.serialize(),
                                         "application/octet-stream");
@@ -167,6 +170,10 @@ invocation_response my_handler(invocation_request const& request) {
 }
 
 int main() {
+  Aws::SDKOptions options;
+  options.loggingOptions.logLevel = Aws::Utils::Logging::LogLevel::Info;
+  Aws::InitAPI(options);
   run_handler(my_handler);
+  Aws::ShutdownAPI(options);
   return 0;
 }

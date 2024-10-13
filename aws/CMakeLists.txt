@@ -10,7 +10,8 @@ project(spf21ytester LANGUAGES CXX)
 
 add_subdirectory(../tas_powertek/spf-21y spf21y)
 find_package(aws-lambda-runtime REQUIRED)
-find_package(aws-sdk-cpp REQUIRED)
+find_package(AWSSDK REQUIRED COMPONENTS dynamodb)
+
 find_package(fmt CONFIG REQUIRED)
 find_package(glog CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
@@ -20,5 +21,10 @@ find_package(date CONFIG REQUIRED)
 add_executable(${PROJECT_NAME} 
     spf21ytester.cpp
     DynamoStore.cpp)
-target_link_libraries(${PROJECT_NAME} PUBLIC AWS::aws-lambda-runtime AWS::aws-sdk-spp Folly::folly Folly::folly_deps spf21y)
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    AWS::aws-lambda-runtime
+    ${AWSSDK_LINK_LIBRARIES}
+    Folly::folly
+    Folly::folly_deps
+    spf21y)
 aws_lambda_package_target(${PROJECT_NAME})
