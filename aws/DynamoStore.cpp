@@ -75,8 +75,9 @@ void DynamoStore::put(const Record& record) {
   putItemRequest.AddItem(kProductSerialNumber,
                          Aws::DynamoDB::Model::AttributeValue().SetS(
                              record.productSerialNumber().data()));
-  putItemRequest.AddItem(kDataType, Aws::DynamoDB::Model::AttributeValue().SetS(
-                                        record.productSerialNumber().data()));
+  putItemRequest.AddItem(kDataType,
+                         Aws::DynamoDB::Model::AttributeValue().SetS(
+                             std::string{toString(record.dataType())}));
   putItemRequest.AddItem(
       kProductId,
       Aws::DynamoDB::Model::AttributeValue().SetS(record.productId().data()));
