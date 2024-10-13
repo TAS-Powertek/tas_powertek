@@ -112,11 +112,7 @@ T parseInteger(std::string_view data) {
   offset += kSizeClientTransmissionTime;
   XCHECK_EQ(offset, kSizeHeader + sizeof(kRequestStart));
 
-  if (companyCode != std::string_view("TAS ")) {
-    throw std::runtime_error(fmt::format(
-        "Invalid company code. Must be 'TAS'. But was '{}'", companyCode));
-  }
-  companyCode_ = "TAS ";
+  companyCode_ = getCString(companyCode);
   productSerialNumber_ = getCString(productSerialNumber);
   productId_ = getCString(productId);
   unitId_ = getCString(unitId);

@@ -9,6 +9,7 @@
 
 #include "../tas_powertek/spf-21y/Record.h"
 #include "../tas_powertek/spf-21y/Response.h"
+#include "DynamoStore.h"
 
 using namespace aws::lambda_runtime;
 using namespace tas_powertek::spf21y;
@@ -16,6 +17,7 @@ using namespace tas_powertek::spf21y;
 namespace {
 static constexpr std::string_view kUserName = "";
 static constexpr std::string_view kPassword = "";
+static constexpr std::string_view kCompanyCode = "TAS ";
 
 static const std::string kBasicAuthString =
     fmt::format("{}:{}", kUserName, kPassword);
@@ -37,7 +39,7 @@ bool authenticate(const folly::dynamic& parsedRequest) {
   if (authString != kBasicAuthBase64) {
     XLOG(INFO) << "Authorization header failed";
     return false;
-  } 
+  }
 
   XLOG(INFO) << "Authorization header passed";
   return true;
@@ -150,6 +152,10 @@ invocation_response my_handler(invocation_request const& request) {
 
     XLOG(INFO) << "The raw record is " << stringToHex(requestBody);
     Record record(requestBody);
+
+    if (record.companyCode() != kCompanyCode) {
+      throw std::runtime_error(fmt::format("The company code '{}' is invalid", record.companyCode()));
+    }
 
     Response response(record);
     return invocation_response::success(response.serialize(),
