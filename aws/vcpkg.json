@@ -1,5 +1,6 @@
 {
   "dependencies": [
+    "aws-sdk-cpp",
     "aws-lambda-cpp",
     "fmt",
     "folly",

@@ -112,11 +112,7 @@ T parseInteger(std::string_view data) {
   offset += kSizeClientTransmissionTime;
   XCHECK_EQ(offset, kSizeHeader + sizeof(kRequestStart));
 
-  if (companyCode != std::string_view("TAS ")) {
-    throw std::runtime_error(fmt::format(
-        "Invalid company code. Must be 'TAS'. But was '{}'", companyCode));
-  }
-  companyCode_ = "TAS ";
+  companyCode_ = getCString(companyCode);
   productSerialNumber_ = getCString(productSerialNumber);
   productId_ = getCString(productId);
   unitId_ = getCString(unitId);
@@ -156,7 +152,7 @@ T parseInteger(std::string_view data) {
   if (dataType == "FL ") {
     EventData eventData = EventData::fromByteStream(data);
     data_ = std::make_unique<EventData>(std::move(eventData));
-  } else if (dataType == "DY ") {
+  } else if (dataType == "DL ") {
     DailyData dailyData = DailyData::fromByteStream(data);
     data_ = std::make_unique<DailyData>(std::move(dailyData));
   } else if (dataType == "PR1") {

@@ -92,7 +92,7 @@ void append(std::string& out, DataType dataType) {
       out.append("IN ");
       break;
     case DataType::DAILY:
-      out.append("DY ");
+      out.append("DL ");
       break;
     case DataType::USER_SETTINGS:
       out.append("PR1");
@@ -121,12 +121,8 @@ void append(std::string& out, const TimeData& timeData) {
 }
 
 void append(std::string& out, const detail::CheckSum16& checksum) {
-  uint16_t underlying = checksum.underlying();
-  uint16_t bigEndianUnderlying = folly::Endian::big(underlying);
-  std::array<char, sizeof(uint16_t)>& asArray =
-      reinterpret_cast<std::array<char, sizeof(uint16_t)>&>(
-          bigEndianUnderlying);
-  for (char c : asArray) {
+  std::string checkSumStr = checksum.toString();
+  for (char c : checkSumStr) {
     append(out, c);
   }
 }

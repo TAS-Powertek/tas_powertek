@@ -1,4 +1,5 @@
 // main.cpp
+#include <aws/core/Aws.h>
 #include <aws/lambda-runtime/runtime.h>
 #include <fmt/core.h>
 #include <fmt/ranges.h>
@@ -9,17 +10,56 @@
 
 #include "../tas_powertek/spf-21y/Record.h"
 #include "../tas_powertek/spf-21y/Response.h"
+#include "DynamoStore.h"
 
 using namespace aws::lambda_runtime;
 using namespace tas_powertek::spf21y;
 
 namespace {
+static constexpr std::string_view kUserName = "";
+static constexpr std::string_view kPassword = "";
+
+static const std::string kBasicAuthString =
+    fmt::format("{}:{}", kUserName, kPassword);
+static const std::string kBasicAuthBase64 =
+    folly::base64Encode(kBasicAuthString);
+
+bool authenticate(const folly::dynamic& parsedRequest) {
+  auto headers = parsedRequest.at("headers");
+  if (headers.find("authorization") == headers.items().end()) {
+    XLOG(INFO) << "Authorization header not found";
+    return false;
+  }
+  std::string authorizationHeader = headers.at("authorization").asString();
+  if (authorizationHeader.find("Basic ") != 0) {
+    XLOG(INFO) << "Authorization header is not Basic";
+    return false;
+  }
+  std::string authString = authorizationHeader.substr(6);
+  if (authString != kBasicAuthBase64) {
+    XLOG(INFO) << "Authorization header failed";
+    return false;
+  }
+
+  XLOG(INFO) << "Authorization header passed";
+  return true;
+}
 invocation_response createFailure(const std::exception& e) {
   folly::dynamic result = folly::dynamic::object;
   result["statusCode"] = 400;
   result["headers"] = folly::dynamic::object;
   result["headers"]["err"] = folly::exceptionStr(e);
   result["body"] = folly::exceptionStr(e);
+  // https://github.com/awslabs/aws-lambda-cpp/issues/200
+  return invocation_response::success(folly::toJson(result),
+                                      "application/json");
+}
+
+invocation_response createAccessDenied() {
+  folly::dynamic result = folly::dynamic::object;
+  result["statusCode"] = 403;
+  result["headers"] = folly::dynamic::object;
+  result["body"] = "Invalid credentials";
   // https://github.com/awslabs/aws-lambda-cpp/issues/200
   return invocation_response::success(folly::toJson(result),
                                       "application/json");
@@ -101,6 +141,9 @@ invocation_response my_handler(invocation_request const& request) {
       throw std::logic_error(fmt::format(
           "Content-Type must be set to one of {}", kAcceptedMimeTypes));
     }
+    if (!authenticate(parsedJson)) {
+      return createAccessDenied();
+    }
 
     auto requestBody = parsedJson.at("body").asString();
     if (parsedJson.at("isBase64Encoded") == true) {
@@ -109,9 +152,20 @@ invocation_response my_handler(invocation_request const& request) {
 
     XLOG(INFO) << "The raw record is " << stringToHex(requestBody);
     Record record(requestBody);
-
+    XLOGF(INFO,
+          "Parsed Record: CompanyCode: {}, "
+          "ProductSerialNumber: {}, DataType: {}, "
+          "ProductId: {}, UnitId: {}, DataLength: {}, "
+          "RecordId: {}, Transmission Time: {}, "
+          "CheckSum: {}, Data: {}", record.companyCode(),
+          record.productSerialNumber(), toString(record.dataType()), record.productId(), record.unitId(),
+          record.dataLength(), record.dataRecordId(), record.clientTransmissionTime().toTimePoint().time_since_epoch().count(),
+          stringToHex(record.checksum().toString()), "<TODO>");
+    DynamoStore().put(record);
     Response response(record);
-    return invocation_response::success(response.serialize(),
+    std::string serializedResponse = response.serialize();
+    XLOG(INFO) << "The raw response is " << stringToHex(serializedResponse);
+    return invocation_response::success(std::move(serializedResponse),
                                         "application/octet-stream");
   } catch (const std::exception& e) {
     XLOG(ERR) << "Exception: " << folly::exceptionStr(e);
@@ -120,6 +174,10 @@ invocation_response my_handler(invocation_request const& request) {
 }
 
 int main() {
+  Aws::SDKOptions options;
+  options.loggingOptions.logLevel = Aws::Utils::Logging::LogLevel::Info;
+  Aws::InitAPI(options);
   run_handler(my_handler);
+  Aws::ShutdownAPI(options);
   return 0;
 }

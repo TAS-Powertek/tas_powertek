@@ -38,13 +38,13 @@ TEST(ResponseTest, xlsResponse) {
   EXPECT_EQ(sv.substr(63, 2), fmt::format("{:0>2X}", 4));     // mo
   EXPECT_EQ(sv.substr(65, 4), fmt::format("{:0>4X}", 2024));  // y
   // server / ack time
-  EXPECT_EQ(sv.substr(69, 2), fmt::format("{:0>2X}", 17));    // s
-  EXPECT_EQ(sv.substr(71, 2), fmt::format("{:0>2X}", 25));    // m
-  EXPECT_EQ(sv.substr(73, 2), fmt::format("{:0>2X}", 04));    // h
-  EXPECT_EQ(sv.substr(75, 2), fmt::format("{:0>2X}", 31));    // d
-  EXPECT_EQ(sv.substr(77, 2), fmt::format("{:0>2X}", 7));     // mo
-  EXPECT_EQ(sv.substr(79, 4), fmt::format("{:0>4X}", 2024));  // y
-  EXPECT_EQ(sv.substr(83, 4), std::string_view("\0\0\0\0", 4));   // ack body
+  EXPECT_EQ(sv.substr(69, 2), fmt::format("{:0>2X}", 17));       // s
+  EXPECT_EQ(sv.substr(71, 2), fmt::format("{:0>2X}", 25));       // m
+  EXPECT_EQ(sv.substr(73, 2), fmt::format("{:0>2X}", 04));       // h
+  EXPECT_EQ(sv.substr(75, 2), fmt::format("{:0>2X}", 31));       // d
+  EXPECT_EQ(sv.substr(77, 2), fmt::format("{:0>2X}", 7));        // mo
+  EXPECT_EQ(sv.substr(79, 4), fmt::format("{:0>4X}", 2024));     // y
+  EXPECT_EQ(sv.substr(83, 4), std::string_view("\0\0\0\0", 4));  // ack body
 
   // Validate checksum.
   detail::CheckSum16 computed = detail::CheckSum16::compute(sv.substr(0, 86));
