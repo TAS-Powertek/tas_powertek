@@ -18,7 +18,6 @@ using namespace tas_powertek::spf21y;
 namespace {
 static constexpr std::string_view kUserName = "";
 static constexpr std::string_view kPassword = "";
-static constexpr std::string_view kCompanyCode = "TAS ";
 
 static const std::string kBasicAuthString =
     fmt::format("{}:{}", kUserName, kPassword);
@@ -153,15 +152,20 @@ invocation_response my_handler(invocation_request const& request) {
 
     XLOG(INFO) << "The raw record is " << stringToHex(requestBody);
     Record record(requestBody);
-
-    if (record.companyCode() != kCompanyCode) {
-      throw std::runtime_error(fmt::format("The company code '{}' is invalid",
-                                           record.companyCode()));
-    }
-
+    XLOGF(INFO,
+          "Parsed Record: CompanyCode: {}, "
+          "ProductSerialNumber: {}, DataType: {}, "
+          "ProductId: {}, UnitId: {}, DataLength: {}, "
+          "RecordId: {}, Transmission Time: {}, "
+          "CheckSum: {}, Data: {}", record.companyCode(),
+          record.productSerialNumber(), toString(record.dataType()), record.productId(), record.unitId(),
+          record.dataLength(), record.dataRecordId(), record.clientTransmissionTime().toTimePoint().time_since_epoch().count(),
+          stringToHex(record.checksum().toString()), "<TODO>");
     DynamoStore().put(record);
     Response response(record);
-    return invocation_response::success(response.serialize(),
+    std::string serializedResponse = response.serialize();
+    XLOG(INFO) << "The raw response is " << stringToHex(serializedResponse);
+    return invocation_response::success(std::move(serializedResponse),
                                         "application/octet-stream");
   } catch (const std::exception& e) {
     XLOG(ERR) << "Exception: " << folly::exceptionStr(e);

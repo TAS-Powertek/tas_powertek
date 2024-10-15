@@ -30,6 +30,20 @@ class CheckSum {
 
   auto operator<=>(const CheckSum&) const noexcept = default;
 
+  std::string toString() const {
+    std::string result;
+    result.reserve(sizeof(uint16_t));
+    uint16_t bigEndianUnderlying = folly::Endian::big(underlying());
+    std::array<char, sizeof(uint16_t)>& asArray =
+        reinterpret_cast<std::array<char, sizeof(uint16_t)>&>(
+            bigEndianUnderlying);
+    for (char c : asArray) {
+      result.append(1, c);
+    }
+
+    return result;
+  }
+
  private:
   static TUnderlying accumulate(std::string_view data) {
     return std::accumulate(

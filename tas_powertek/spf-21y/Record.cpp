@@ -152,7 +152,7 @@ T parseInteger(std::string_view data) {
   if (dataType == "FL ") {
     EventData eventData = EventData::fromByteStream(data);
     data_ = std::make_unique<EventData>(std::move(eventData));
-  } else if (dataType == "DY ") {
+  } else if (dataType == "DL ") {
     DailyData dailyData = DailyData::fromByteStream(data);
     data_ = std::make_unique<DailyData>(std::move(dailyData));
   } else if (dataType == "PR1") {

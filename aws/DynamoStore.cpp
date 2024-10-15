@@ -1,6 +1,7 @@
 
 #include "DynamoStore.h"
 
+#include <fmt/chrono.h>
 #include <aws/core/Aws.h>
 #include <aws/dynamodb/DynamoDBClient.h>
 #include <aws/dynamodb/model/AttributeDefinition.h>
@@ -9,6 +10,7 @@
 namespace tas_powertek::spf21y {
 
 namespace {
+static const std::string kPrimaryKey{"__key"};
 static const std::string kTableName{"spf21ytester"};
 static const std::string kCompanyCode{"company_code"};
 static const std::string kProductSerialNumber{"product_serial_number"};
@@ -23,14 +25,43 @@ static const std::string kChecksum{"checksum"};
 std::string epochSecString(const TimeData& data) {
   return std::to_string(data.toTimePoint().time_since_epoch().count());
 }
+
+std::string createPrimaryKey(const Record& record) {
+  return fmt::format("{}:{}:{}:{}", record.productId(), record.unitId(), toString(record.dataType()), record.dataRecordId());
+}
 }  // namespace
 
 namespace {
 
+#define ADD_NUMBER(field_name)                                     \
+  destination.AddItem(#field_name,                                 \
+                      Aws::DynamoDB::Model::AttributeValue().SetN( \
+                          std::to_string(*data.field_name)));
+
 void addAttributes(Aws::DynamoDB::Model::PutItemRequest& destination,
                    const EventData& data) {}
 void addAttributes(Aws::DynamoDB::Model::PutItemRequest& destination,
-                   const IntervalData64& data) {}
+                   const IntervalData64& data) {
+  ADD_NUMBER(supplyFrequency);
+  ADD_NUMBER(averagePhaseToNeutralVolage_RMS);
+  ADD_NUMBER(averagePhaseToNeutralVoltage_Fundamental);
+  ADD_NUMBER(averagePhaseToNeutralVolage_THD);
+  ADD_NUMBER(averagePhaseToPhaseVoltage_RMS);
+  ADD_NUMBER(averagePhaseToPhaseVoltage_Fundamental);
+  ADD_NUMBER(averagePhaseCurrent_RMS);
+  ADD_NUMBER(averagePhaseCurrent_THD);
+  ADD_NUMBER(overall3PhActivePower_Fundamental);
+  ADD_NUMBER(overall3PhReactivePower_Fundamental);
+  ADD_NUMBER(powerFactor_Fundamental_OverallThreePhase);
+  ADD_NUMBER(capacitorPhase1Current_RMS);
+  ADD_NUMBER(capacitorPhase2Current_RMS);
+  ADD_NUMBER(capacitorPhase3Current_RMS);
+  ADD_NUMBER(capacitorEarthFaultCurrent_RMS);
+  ADD_NUMBER(capacitorPhase1Current_Fundamental);
+  ADD_NUMBER(capacitorPhase2Current_Fundamental);
+  ADD_NUMBER(capacitorPhase3Current_Fundamental);
+  ADD_NUMBER(capacitorAverageCurrent_THD);
+}
 void addAttributes(Aws::DynamoDB::Model::PutItemRequest& destination,
                    const IntervalData128& data) {}
 void addAttributes(Aws::DynamoDB::Model::PutItemRequest& destination,
@@ -69,6 +100,7 @@ void DynamoStore::put(const Record& record) {
   Aws::DynamoDB::Model::PutItemRequest putItemRequest;
   putItemRequest.SetTableName(kTableName.data());
 
+  putItemRequest.AddItem(kPrimaryKey, Aws::DynamoDB::Model::AttributeValue().SetS(createPrimaryKey(record)));
   putItemRequest.AddItem(
       kCompanyCode,
       Aws::DynamoDB::Model::AttributeValue().SetS(record.companyCode().data()));
@@ -86,6 +118,9 @@ void DynamoStore::put(const Record& record) {
   putItemRequest.AddItem(kDataLength,
                          Aws::DynamoDB::Model::AttributeValue().SetN(
                              std::to_string(record.dataLength())));
+  putItemRequest.AddItem(kDataRecordId,
+                         Aws::DynamoDB::Model::AttributeValue().SetS(
+                             record.dataRecordId().data()));
   putItemRequest.AddItem(kClientTransmissionTime,
                          Aws::DynamoDB::Model::AttributeValue().SetN(
                              epochSecString(record.clientTransmissionTime())));
